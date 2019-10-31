@@ -102,19 +102,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseFiles\BaseTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\ReportManager.cs" />
+    <Compile Include="Utilities\LibExcel.cs" />
+    <Compile Include="Utilities\LibWord.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BaseFiles\" />
     <Folder Include="PageObjects\" />
-    <Folder Include="Reporting\" />
     <Folder Include="TestCases\" />
-    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
