@@ -25,16 +25,15 @@ namespace AutomationFramework.Reporting
             return reportPath;
         }
 
-        public void ReportSetUp(ExtentHtmlReporter htmlReporter, ExtentReports extent)
+        public void ReportSetUp(ExtentV3HtmlReporter htmlReporter, ExtentReports extent)
         {
             htmlReporter.Config.Theme = AventStack.ExtentReports.Reporter.Configuration.Theme.Dark;
-            htmlReporter.Config.DocumentTitle = "Document Report";
-            htmlReporter.Config.ReportName = "Report Name Execution";
+            htmlReporter.Config.DocumentTitle = "LinkedIn Summary Report";
             extent.AttachReporter(htmlReporter);
-            extent.AddSystemInfo("Project: ", "LocalHost");
+            extent.AddSystemInfo("Project: ", "LinkedIn Internal Project");
             extent.AddSystemInfo("Web Version: ", "QA");
-            extent.AddSystemInfo("Version", "TestUser");
-            extent.AddSystemInfo("Browser", "TestUser");
+            extent.AddSystemInfo("Version", "v1.0");
+            extent.AddSystemInfo("Browser", "Chrome");
         }
 
         public void TestCaseResult(ExtentTest test, ExtentReports extent, IWebDriver driver)

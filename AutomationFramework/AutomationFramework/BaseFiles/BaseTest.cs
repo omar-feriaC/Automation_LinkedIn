@@ -17,10 +17,10 @@ namespace AutomationFramework.BaseFiles
     class BaseTest
     {
         /*Variables*/
-        private static readonly string BrowserName = ConfigurationManager.AppSettings.Get("url");
+        private static readonly string BrowserName = ConfigurationManager.AppSettings.Get("LinkedIn_LoginSite");
         public static ReportManager rm = new ReportManager();
         public static LibExcel objxls = new LibExcel();
-        public static ExtentHtmlReporter htmlReporter;
+        public static ExtentV3HtmlReporter htmlReporter;
         public static ExtentReports extent;
         public static ExtentTest test;
         public static IWebDriver driver;
@@ -30,7 +30,7 @@ namespace AutomationFramework.BaseFiles
         {
             if (htmlReporter == null)
             {
-                htmlReporter = new ExtentHtmlReporter(rm.ReportPath());
+                htmlReporter = new ExtentV3HtmlReporter(rm.ReportPath());
             }
 
             if (extent == null)
