@@ -15,9 +15,9 @@ namespace AutomationFramework.PageObjects
 
 
         /*LOCATORS FRO EACH AND EVERY ELEMENT IN PAGE*/
-        string USERNAME_TXT = "username";
-        string PASSWORD_TXT = "password";
-        string SINGIN_BTN = "//button[text()='Sign in']";
+        readonly string USERNAME_TXT = "username";
+        readonly string PASSWORD_TXT = "password";
+        readonly string SINGIN_BTN = "//button[text()='Sign in']";
 
 
         /*POM FILE CONSTRUCTOR BY TAKING AS PARAMETER "DRIVER" FROM BASETEST CLASS*/
@@ -37,7 +37,7 @@ namespace AutomationFramework.PageObjects
         /*METHODS FOR ACCESING TO WEBELEMENTS FROM THIS PARTICULAR POM CLASS*/
         
         /*User Name*/
-        public IWebElement GetUserNameTxtField()
+        private IWebElement GetUserNameTxtField()
         {
             return UserNameTxtField;
         }
@@ -49,7 +49,7 @@ namespace AutomationFramework.PageObjects
         }
 
         /*Password*/
-        public IWebElement GetPasswordTxtField()
+        private IWebElement GetPasswordTxtField()
         {
             return PasswordTxtField;
         }
@@ -61,7 +61,7 @@ namespace AutomationFramework.PageObjects
         }
 
         //SignIn BUTTTON
-        public IWebElement GetSignInButton()
+        private IWebElement GetSignInButton()
         {
             return SignIngBtn;
         }

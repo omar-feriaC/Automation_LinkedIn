@@ -5,11 +5,13 @@ using AventStack.ExtentReports.Reporter;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AutomationFramework.BaseFiles
@@ -59,8 +61,7 @@ namespace AutomationFramework.BaseFiles
             rm.TestCaseResult(test, extent, driver);
             ExitDriver();
         }
-
-
+        
         public void SetUpDriver()
         {
             driver = new ChromeDriver();
@@ -73,8 +74,24 @@ namespace AutomationFramework.BaseFiles
             driver.Quit();
         }
 
+        public IWebElement FindElements(IWebDriver driver, By by, int timeOutSeconds)
+        {
+            if (timeOutSeconds > 0)
+            {
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutSeconds));
+                return wait.Until(dvr => dvr.FindElement(by));
+            }
+            return driver.FindElement(by);
+        }
 
+        public void WaitToContinue()
+        {
+            Thread.Sleep(3000);
+        }
 
-
+        public void WaitToContinue(int pMiliseconds)
+        {
+            Thread.Sleep(pMiliseconds);
+        }
     }
 }
