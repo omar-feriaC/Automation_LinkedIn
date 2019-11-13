@@ -1,6 +1,8 @@
 ﻿using AutomationFramework.BaseFiles;
 using AutomationFramework.PageObjects;
+using AventStack.ExtentReports;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,22 +19,53 @@ namespace AutomationFramework.TestCases
 
         [Test]
         public void LinkedIn_Login()
-        {
-            /*Step 1: Login to LinkedIn Portal*/
+        {            
+            //Init objects/variables
             objLogin = new LinkedIn_LoginPage(driver);
-            test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
-            objLogin.EnterUserNameTxtField(ConfigurationManager.AppSettings.Get("username"));
-            objLogin.EnterPasswordTxtField(ConfigurationManager.AppSettings.Get("password"));
-            objLogin.ClickSignInButton();
-
-            /*Step 2: Perform first search*/
             objSearch = new LinkedIn_PerformSearchPage(driver);
-            objSearch.EnterSearchTextBoxField("Pega");
-            objSearch.ClickSearchIconField();
-            objSearch.PeopleFilterButton();
-            
+            //Variables
+            string strLocation =  "México";
+            string strLanguajes =  "en;es";
+            int counter = 0;
+            string line;
 
+            //Step 0: Set Test Case Name
+            test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
 
+            //Step 1: Login to LinkedIn Portal
+            test.Log(Status.Info, "Login Starts");
+            if (objLogin.fnLogin())
+            {
+                //Step 2: Setup Intial Filter
+                test.Log(Status.Info, "Set Initial Criteria/Filters");
+                objSearch.FnEnterCriteriaAndFilterByPeople("Test");
+                objSearch.FnEnterAllFilters(strLocation, strLanguajes);
+                WaitToContinue(3);
+                //objSearch.ClickHomeButton();
+
+                //Step 3: Open/Read Text File
+                test.Log(Status.Info, "Read Input File");
+                System.IO.StreamReader file = new System.IO.StreamReader(ConfigurationManager.AppSettings.Get("dataPath"));
+                while ((line = file.ReadLine()) != null)
+                {
+                    /*Step 3: Perform first search*/
+                    if (!line.Contains("*"))
+                    {
+                        objSearch.FnSearchKeyword(line);
+                        objSearch.FnGetResults(line.ToString());
+
+                        //objSearch.ClickHomeButton();
+                    }
+                    counter++;
+                }
+                //Step: Close input file
+                file.Close();
+            }
+            else
+            {
+                Assert.Fail();
+                Console.WriteLine("An error has occurred with the login.");
+            }
 
         }
     }

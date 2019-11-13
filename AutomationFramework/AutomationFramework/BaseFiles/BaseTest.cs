@@ -6,6 +6,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -74,7 +75,7 @@ namespace AutomationFramework.BaseFiles
             driver.Quit();
         }
 
-        public IWebElement FindElements(IWebDriver driver, By by, int timeOutSeconds)
+        public static IWebElement FindElements(IWebDriver driver, By by, int timeOutSeconds)
         {
             if (timeOutSeconds > 0)
             {
@@ -84,14 +85,20 @@ namespace AutomationFramework.BaseFiles
             return driver.FindElement(by);
         }
 
-        public void WaitToContinue()
+        public static void WaitElementToBeClickable(IWebDriver driver, By by, int timeOutSeconds)
+        {
+                var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutSeconds));
+                wait.Until(ExpectedConditions.ElementToBeClickable(by));
+        }
+
+        public static void WaitToContinue()
         {
             Thread.Sleep(3000);
         }
 
-        public void WaitToContinue(int pMiliseconds)
+        public static void WaitToContinue(int pMiliseconds)
         {
-            Thread.Sleep(pMiliseconds);
+            Thread.Sleep(TimeSpan.FromSeconds(pMiliseconds));
         }
     }
 }

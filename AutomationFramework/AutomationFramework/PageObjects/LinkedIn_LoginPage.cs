@@ -1,7 +1,9 @@
 ﻿using AutomationFramework.BaseFiles;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +13,13 @@ namespace AutomationFramework.PageObjects
     class LinkedIn_LoginPage : BaseTest
     {
         /*DRIVER REFERENCE FOR THIS PARTICULAR POM*/
-        private IWebDriver _driver;
+        private static IWebDriver _driver;
 
 
         /*LOCATORS FRO EACH AND EVERY ELEMENT IN PAGE*/
-        readonly string USERNAME_TXT = "username";
-        readonly string PASSWORD_TXT = "password";
-        readonly string SINGIN_BTN = "//button[text()='Sign in']";
+        readonly static string USERNAME_TXT = "username";
+        readonly static string PASSWORD_TXT = "password";
+        readonly static string SINGIN_BTN = "//button[text()='Sign in']";
 
 
         /*POM FILE CONSTRUCTOR BY TAKING AS PARAMETER "DRIVER" FROM BASETEST CLASS*/
@@ -28,50 +30,75 @@ namespace AutomationFramework.PageObjects
 
         /*LOCATORS VALUES STORED AS IWebElement OBJECTS TO BE USED IN FRAMEWORK THROUGH METHODS FROM THIS POM CLASS*/
         /*SET*/
-        private IWebElement UserNameTxtField => _driver.FindElement(By.Id(USERNAME_TXT));
-        private IWebElement PasswordTxtField => _driver.FindElement(By.Id(PASSWORD_TXT));
-        private IWebElement SignIngBtn => _driver.FindElement(By.XPath(SINGIN_BTN));
+        private static IWebElement UserNameTxtField => _driver.FindElement(By.Id(USERNAME_TXT));
+        private static IWebElement PasswordTxtField => _driver.FindElement(By.Id(PASSWORD_TXT));
+        private static IWebElement SignIngBtn => _driver.FindElement(By.XPath(SINGIN_BTN));
 
 
 
         /*METHODS FOR ACCESING TO WEBELEMENTS FROM THIS PARTICULAR POM CLASS*/
         
         /*User Name*/
-        private IWebElement GetUserNameTxtField()
+        private static IWebElement GetUserNameTxtField()
         {
             return UserNameTxtField;
         }
 
-        public void EnterUserNameTxtField(string strUserName)
+        public static void EnterUserNameTxtField(string strUserName)
         {
             UserNameTxtField.Clear();
             UserNameTxtField.SendKeys(strUserName);
         }
 
         /*Password*/
-        private IWebElement GetPasswordTxtField()
+        private static IWebElement GetPasswordTxtField()
         {
             return PasswordTxtField;
         }
 
-        public void EnterPasswordTxtField(string strPassword)
+        public static void EnterPasswordTxtField(string strPassword)
         {
             PasswordTxtField.Clear();
             PasswordTxtField.SendKeys(strPassword);
         }
 
         //SignIn BUTTTON
-        private IWebElement GetSignInButton()
+        private static IWebElement GetSignInButton()
         {
             return SignIngBtn;
         }
 
-        public void ClickSignInButton()
+        public static void ClickSignInButton()
         {
             SignIngBtn.Click();
         }
 
-
+        /*METHODS AND FUNCTIONS*/
+        public bool fnLogin()
+        {
+            try
+            {
+                bool bStatus = false;
+                EnterUserNameTxtField(ConfigurationManager.AppSettings.Get("username"));
+                EnterPasswordTxtField(ConfigurationManager.AppSettings.Get("password"));
+                ClickSignInButton();
+                if (!_driver.Title.StartsWith("LinkedIn: Log In or Sign Up"))
+                {
+                    bStatus = true;
+                }
+                else
+                {
+                    bStatus = false;
+                }
+                return bStatus;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+                return false;
+            }
+            
+        }
 
     }
 }
