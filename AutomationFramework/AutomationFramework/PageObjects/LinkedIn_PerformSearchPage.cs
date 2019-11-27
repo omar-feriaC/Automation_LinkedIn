@@ -22,7 +22,7 @@ namespace AutomationFramework.PageObjects
         readonly static string PEOPLE_FILTER_BTN = "//button[span[text()='Gente' or text()='People']]";
         readonly static string HOME_BTN = "//*[@id='feed-nav-item']";
         readonly static string ALL_FILTER_BTN = "//button[@data-control-name='all_filters']";
-        readonly static string LOCATION_TXT = "(//input[@placeholder='Añadir un país o región'])[1]";
+        readonly static string LOCATION_TXT = "(//input[contains(@placeholder, 'Add a country/region') or contains(@placeholder, 'Añadir un país o región')])[1]";
         readonly static string APPLY_BTN = "//button[@data-control-name='all_filters_apply']";
         readonly static string PAG_BUTTON = "//li[@class='artdeco-pagination__indicator artdeco-pagination__indicator--number active selected']";
         private static string CANDIDATE_NAME;
@@ -184,7 +184,7 @@ namespace AutomationFramework.PageObjects
                 EnterLocationTextbox(loc);
                 WaitToContinue(3);
                 //Select Dropdown
-                _driver.FindElement(By.XPath("//div[@role='option']//span[text()='"+ loc +"']")).Click();
+                _driver.FindElement(By.XPath("(//div[@role='option']//span[starts-with(text(), '" + loc.Substring(0, 1) + "')])[1]")).Click();
                 WaitToContinue(2);
             }
             //Select Languajes
